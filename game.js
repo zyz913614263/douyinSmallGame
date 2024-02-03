@@ -4,4 +4,29 @@
 //import './libs/symbol'
 import Main from "./main";
 
+//const db = await cloud.database();
+//const res = await db.collection('demo').get(); 
+
 let main = new Main();
+
+tt.onShow(()=>{
+    let isExist = tt.checkScene()
+    if (isExist){
+        /*tt.navigateToScene({
+            scene:'sidebar',
+            fail:console.log,
+            success:console.log,
+        })*/
+    }else{
+        /*tt.navigateToScene({
+            scene:'sidebar',
+            fail:console.log,
+            success:console.log,
+        })*/
+    }
+})
+
+let is = tt.checkShortcut()
+if (is == false){
+    tt.addShortcut()
+}

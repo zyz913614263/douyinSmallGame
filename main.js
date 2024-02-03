@@ -3,9 +3,11 @@ import DataBus from "./databus";
 import BackGround from "./runtime/background";
 import GameInfo from "./runtime/gameinfo";
 import Enemy from "./npc/enemy";
-import Music      from './runtime/music'
+import Music from "./runtime/music";
 let databus = new DataBus();
 //TODO DB
+
+let res = "历史最高分：0"
 
 let systemInfo = tt.getSystemInfoSync();
 let canvas = tt.createCanvas(),
@@ -70,6 +72,11 @@ export default class Main {
                 systemInfo.windowWidth / 2 - 40,
                 systemInfo.windowHeight / 2 - 100 + 225
             );
+            // ctx.fillText(
+            //     res,
+            //     systemInfo.windowWidth / 2 - 60,
+            //     systemInfo.windowHeight / 2 - 100 + 280
+            // );
         };
 
         //bgmAudio.play()
@@ -121,7 +128,7 @@ export default class Main {
         this.bg = new BackGround(ctx);
         this.bindLoop = this.loop.bind(this);
         this.hasEventBind = false;
-        this.music    = new Music()
+        this.music = new Music();
 
         // 清除上一局的动画
         window.cancelAnimationFrame(this.aniId);
@@ -155,7 +162,6 @@ export default class Main {
 
     // 全局碰撞检测
     collisionDetection() {
-
         databus.bullets.forEach((bullet) => {
             for (let i = 0, il = databus.enemys.length; i < il; i++) {
                 let enemy = databus.enemys[i];
@@ -202,11 +208,10 @@ export default class Main {
         databus.bullets.forEach((item) => {
             item.drawToCanvas(ctx);
         });
-        
+
         databus.enemys.forEach((item) => {
             item.drawToCanvas(ctx);
         });
-        
 
         this.player.drawToCanvas(ctx);
 
@@ -227,20 +232,22 @@ export default class Main {
 
             if (!this.hasEventBind) {
                 this.hasEventBind = true;
-                tt.onTouchStart((e) =>{
-                    let x = e.touches[0].clientX
-                    let y = e.touches[0].clientY
-                
-                    let area = btAera
-                
-                    if (   x >= area.startX
-                        && x <= area.endX
-                        && y >= area.startY
-                        && y <= area.endY  )
-                     {
-                         tt.offTouchStart()
-                         this.start()
-                     }})
+                tt.onTouchStart((e) => {
+                    let x = e.touches[0].clientX;
+                    let y = e.touches[0].clientY;
+
+                    let area = btAera;
+
+                    if (
+                        x >= area.startX &&
+                        x <= area.endX &&
+                        y >= area.startY &&
+                        y <= area.endY
+                    ) {
+                        tt.offTouchStart();
+                        this.start();
+                    }
+                });
             }
         }
     }
@@ -260,8 +267,8 @@ export default class Main {
         this.collisionDetection();
 
         if (databus.frame % 20 === 0) {
-            this.player.shoot()
-            this.music.playShoot()
+            this.player.shoot();
+            this.music.playShoot();
         }
     }
 
